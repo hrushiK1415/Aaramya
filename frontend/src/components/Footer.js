@@ -1,60 +1,55 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next';
-
-
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter, FaYoutube } from 'react-icons/fa';
-// import {TiWorld} from 'react-icons/ti/';
+import { useTranslation } from 'react-i18next'
+import { FaGithub, FaTwitter, FaLinkedin, FaDiscord } from 'react-icons/fa'
 
 const Footer = () => {
+  const { t } = useTranslation()
+  const currentYear = new Date().getFullYear()
 
-    const { t, i18n } = useTranslation();
+  return (
+    <footer className='bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800'>
+      <div className='container mx-auto py-6 px-8'>
+        <div className='flex items-center justify-between'>
+          {/* Logo on the left */}
+          <div className='flex items-center'>
+            <Link
+              to='/'
+              className='flex items-center gap-2'>
+              <span className='font-bold text-xl text-gray-800 dark:text-white'>
+                Mind
+                <span className='text-blue-600 dark:text-blue-400'>Chain</span>
+              </span>
+            </Link>
+          </div>
 
-    // function handleChange(event){
-    //     i18n.changeLanguage(event.target.value);
-    // }
+          {/* Copyright in the middle */}
+          <p className='text-gray-600 dark:text-gray-400 text-sm font-medium hidden sm:block'>
+            © {currentYear} MindChain. All rights reserved.
+          </p>
 
-
-    return (
-        <div className='flex flex-col 2xl:flex-row justify-between items-center h-full bg-gray-600 dark:bg-gray-900 text-gray-300 font-medium text-xs py-6 px-10 xl:px-16 2xl:px-56'>
-
-            <div className='items-baseline flex-wrap flex flex-row mb-4 2xl:mb-0 justify-center '>
-                <p className='px-4 py-2'>{t('Footer.List.MindChain')}</p>
-                <Link className="px-4 py-2  text-gray-300 hover:text-gray-100" to='/'>{t('Footer.List.Terms')}</Link>
-                <Link className="px-4 py-2 text-gray-300 hover:text-gray-100" to='/'>{t('Footer.List.PrivacyPolicy')}</Link>
-                <Link className="px-4 py-2 text-gray-300 hover:text-gray-100" to='/'>{t('Footer.List.CookiePolicy')}</Link>
-                <Link className="px-4 py-2 text-gray-300 hover:text-gray-100" to='/'>{t('Footer.List.CCPANotice')}</Link>
-                <Link className="px-4 py-2 text-gray-300 hover:text-gray-100" to='/'>{t('Footer.List.Securety')}</Link>
-                <Link className="px-4 py-2 text-gray-300 hover:text-gray-100" to='/'>{t('Footer.List.Sitemap')}</Link>
-            </div>
-
-            <div className='flex w-2/5 justify-around'>
-
-                <div className='flex items-center'>
-                    <a className='p-2 mr-4 text-gray-600 hover:text-gray-700 bg-white rounded-full' href="#">
-                        <FaFacebookF /> 
-                    </a>
-                    <a className='p-2 mr-4 text-gray-600 hover:text-gray-700 bg-white rounded-full' href="#">
-                        <FaInstagram />
-                    </a>
-                    <a className='p-2 mr-4 text-gray-600 hover:text-gray-700 bg-white rounded-full' href="#">
-                        <FaLinkedinIn />
-                    </a>
-                    <a className='p-2 mr-4 text-gray-600 hover:text-gray-700 bg-white rounded-full' href="#">
-                        <FaTwitter />
-                    </a>
-                    <a className='p-2 mr-4 text-gray-600 hover:text-gray-700 bg-white rounded-full' href="#">
-                        <FaYoutube />
-                    </a>
-                    
-                </div>
-
-               
-
-            </div>
-
+          {/* Social Media Links on the right */}
+          <div className='flex space-x-3'>
+            <a
+              href='https://github.com/aditya-gg04/MindChain'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='w-9 h-9 flex items-center justify-center bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-200 rounded-full hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all duration-200'
+              aria-label='GitHub'>
+              <FaGithub size={18} />
+            </a>
+          </div>
         </div>
-    )
+
+        {/* Mobile copyright - visible only on small screens */}
+        <div className='mt-3 text-center sm:hidden'>
+          <p className='text-gray-600 dark:text-gray-400 text-xs'>
+            © {currentYear} MindChain. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+  )
 }
 
 export default Footer

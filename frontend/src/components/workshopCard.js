@@ -14,8 +14,11 @@ const WorkshopCard = ({heading,token,imgsrc,link1}) => {
         setSoulToken(val);
         setPyusdToken(PyusdT);
       }
-      handleFetchDiscount()
-  },[])
+      if(walletAddress){
+        // console.log(token + " " + balance + " " + walletAddress);
+        handleFetchDiscount()
+    }
+  },[walletAddress])
     return (
         <div>
             <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -124,9 +127,9 @@ const WorkshopCard = ({heading,token,imgsrc,link1}) => {
                             Buy
                         </button>
                     </div>
-                    <div className=' text-red-500 font-semibold'>
+                    {(walletAddress && token!==0)? (<div className=' text-red-500 font-semibold'>
                         Get at <span className='font-bold text-red-600'>{pyusdToken}  PYUSD</span> using Soul Tokens
-                    </div>
+                    </div>):(<></>)}
                 </div>
             </div>
 

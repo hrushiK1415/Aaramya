@@ -4,7 +4,8 @@ import { ethers, MinInt256 } from 'ethers' // Only import ethers
 import SoulTokenABI from '../ABI/SoulToken.json'
 import ERC20_ABI from '../ABI/ERC20_ABI.json'
 import { toast } from 'react-toastify'
-import { use } from 'i18next'
+import axios from 'axios'
+import { BackendUrl,ContractAddress as contractAddress,pyusdAddress } from '../data/const'
 export const WalletContext = createContext()
 
 const WalletProvider = ({ children }) => {
@@ -16,12 +17,29 @@ const WalletProvider = ({ children }) => {
   const [contract, setContract] = useState(null)
   const [pyusdBalance, setPyusdBalance] = useState(0)
   const [pyusdContract, setPyusdContract] = useState(null)
-
-  const contractAddress = '0xe9F0A5CC069b0B3B5B164f9842bb397297A9D8Da' // Replace with actual address
-  // const pyusdAddress = "0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9";
-  const pyusdAddress = '0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9'
+  const [user,setUser] = useState({});
   // Connect Wallet
-
+  const getUser = async() => {
+    try{
+      const res = await axios.post(`${BackendUrl}/user/create-user`,{address:walletAddress},{
+        headers:{
+          'Content-Type':'application/json'
+        }
+      });
+      if(res.status === 201){
+        console.log('User created successfully:', res.data.user);
+        setUser(res.data.user);
+      }
+    }
+    catch(err){
+      console.log(err.response?.data?.message || "Internal Network Error");
+    }
+  }
+  useEffect(()=>{
+    if(contract && walletAddress){
+      getUser();
+    }
+  },[walletAddress])
   const connectWallet = useCallback(async () => {
     try {
       if (!window.ethereum) {
@@ -45,13 +63,15 @@ const WalletProvider = ({ children }) => {
       setPyusdContract(pyusdContractu)
       const accounts = await providerInstance.send('eth_requestAccounts', [])
       const userAddress = accounts[0]
-      setWalletAddress(userAddress)
+      
       setProvider(providerInstance)
+      
+      const tokenBalance = await contractInstance.checkNoOfTokens(userAddress)
+      setBalance(ethers.formatUnits(tokenBalance, 0)) // Fetch initial balance
+      setWalletAddress(userAddress)
       toast.success('Wallet connected successfully!', {
         toastId: 'connect',
       })
-      const tokenBalance = await contractInstance.checkNoOfTokens(userAddress)
-      setBalance(ethers.formatUnits(tokenBalance, 0)) // Fetch initial balance
       const pyusdBalanceu = await pyusdContractu?.balanceOf(userAddress)
       setPyusdBalance(ethers.formatUnits(pyusdBalanceu, 6))
     } catch (error) {

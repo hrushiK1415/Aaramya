@@ -18,7 +18,7 @@ const Activities = () => {
             </div>
             <div className='flex flex-col w-screen justify-evenly'>
                <div className='flex flex-row items-center justify-evenly py-10'>
-               <Card heading={"Color-Matching"} token={10} imgsrc={image4} link1={"/meditate"}/>
+               <Card heading={"Color-Matching"} token={10} imgsrc={image4} link1={"/color-matching"}/>
                <Card heading={"Meditate"} token={10} imgsrc={image1} link1={"/meditate"}/>
                                
                </div>
