@@ -3,8 +3,8 @@ import User from "../model/User.js";
 import Workshop from "../model/WorkShop.js";
 import Transaction from "../model/Transaction.js";
 const router = Router();
-router.post("/create-user",async(req,res)=>{
-    try{
+router.post("/create-user", async (req, res) => {
+    try {
         const { address } = req.body;
         if (!address) {
             return res.status(400).json({ message: "Wallet address is required" });
@@ -16,14 +16,14 @@ router.post("/create-user",async(req,res)=>{
         }
         res.status(201).json({ message: "User created successfully", user: existingUser });
     }
-    catch(error){
+    catch (error) {
         console.error("Error creating user:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 })
-router.get("/purchased-workshops", async(req,res) => {
+router.get("/purchased-workshops", async (req, res) => {
     try {
-        const address = req.body.address;
+        const address = req.query.address;
         const user = await User.findOne({ walletAddress: address });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -37,9 +37,9 @@ router.get("/purchased-workshops", async(req,res) => {
     }
 })
 
-router.get("/created-workshops", async(req,res) => {
+router.get("/created-workshops", async (req, res) => {
     try {
-        const address = req.body.address;
+        const address = req.query.address;
         const user = await User.findOne({ walletAddress: address });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -53,7 +53,7 @@ router.get("/created-workshops", async(req,res) => {
     }
 })
 
-router.get("/transactions", async(req,res) => {
+router.get("/transactions", async (req, res) => {
     try {
         const address = req.body.address;
         const user = await User.findOne({ walletAddress: address });
@@ -68,5 +68,34 @@ router.get("/transactions", async(req,res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 })
+
+router.post("/purchase-workshop", async (req, res) => {
+    try {
+        const { address, workshopId } = req.body;
+
+        if (!address || !workshopId) {
+            return res.status(400).json({ message: "Address and workshop ID are required" });
+        }
+
+        const user = await User.findOne({ walletAddress: address });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Check if the workshop is already purchased
+        if (user.purchasedWorkshops.includes(workshopId)) {
+            return res.status(400).json({ message: "Workshop already purchased" });
+        }
+
+        // Add the workshop to the user's purchased workshops
+        user.purchasedWorkshops.push(workshopId);
+        await user.save();
+
+        res.status(200).json({ message: "Workshop purchased successfully" });
+    } catch (error) {
+        console.error("Error purchasing workshop:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 export default router;

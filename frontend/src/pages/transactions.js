@@ -152,7 +152,7 @@ const Transactions = () => {
         {/* Header */}
         <div className='text-center mb-10'>
           <h1 className='text-4xl font-extrabold text-gray-900 dark:text-white'>
-            <span className='bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600'>
+            <span className='bg-clip-text text-[#f58b44]'>
               Transaction History
             </span>
           </h1>

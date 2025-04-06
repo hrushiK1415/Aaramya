@@ -170,7 +170,7 @@ const CreateWorkshop = () => {
         {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="bg-clip-text  text-[#f58b44]">
               Create a Workshop
             </span>
           </h1>
@@ -325,7 +325,7 @@ const CreateWorkshop = () => {
                   className={`${
                     loading || uploadingImage
                       ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700'
+                      : 'bg-[#f58b44] onhover:bg-[#d67a3a]'
                   } w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
                 >
                   {loading ? (

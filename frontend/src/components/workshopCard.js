@@ -1,140 +1,65 @@
-import React, { useContext, useEffect, useState } from 'react';
-import image from '../images/404-image.png'
+import React, { useEffect, useState } from 'react';
 import { WalletContext } from '../context/WalletContext';
-import { toast } from 'react-toastify';
-const WorkshopCard = ({heading,token,imgsrc,link1}) => {
-  const { approveTokens,pyusdBalance,balance,walletAddress, reduceTokens,fetchBalance } = useContext(WalletContext);
-  const [soulToken,setSoulToken]=useState(0);
-  const [pyusdToken,setPyusdToken]=useState(0);
-  useEffect(()=>{
-    const handleFetchDiscount =async () => {
-        var val = Math.min(balance,300);
-        var discount = val/100;    //285/100 ->2.85   
-        var PyusdT=(token-discount);
-        setSoulToken(val);
-        setPyusdToken(PyusdT);
-      }
-      if(walletAddress){
-        // console.log(token + " " + balance + " " + walletAddress);
-        handleFetchDiscount()
-    }
-  },[walletAddress])
+const WorkshopCard = ({ workshop, onBuy, isCreator }) => {
+    const { title, price, description, discount, purchased } = workshop;
+    const discountedPrice = price ? price - (price * discount) / 100 : 0; // Ensure price is valid
+    const { approveTokens,pyusdBalance,balance,walletAddress, reduceTokens,fetchBalanc } = React.useContext(WalletContext); // Get wallet address from context
+    const [pyusdToken,setPyusdToken]=useState(0);
+    const [soulToken,setSoulToken]=useState(0);
+    useEffect(()=>{
+        const token =Number(price);
+        const handleFetchDiscount =async () => {
+            var val = Math.min(balance,200);
+            var discount = val/100;    //285/100 ->2.85   
+            var PyusdT=(token-discount);
+            setSoulToken(val);
+            setPyusdToken(PyusdT);
+          }
+          if(walletAddress){
+            // console.log(token + " " + balance + " " + walletAddress);
+            handleFetchDiscount()
+        }
+      },[walletAddress])
     return (
-        <div>
-            <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <a href={link1}>
-                    <img
-                        className="p-8 rounded-t-lg "
-                        // src={imgsrc}
-                        src={imgsrc}
-                        alt="product image"
-                    />
-                </a>
-                <div className="px-5 pb-5">
-                    <a href="#">
-                        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                            {heading} 
-                        </h5>
-                    </a>
-                    <div className="flex items-center mt-2.5 mb-5">
-                        <div className="flex items-center space-x-1 rtl:space-x-reverse">
-                            <svg
-                                className="w-4 h-4 text-yellow-300"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                viewBox="0 0 22 20"
-                            >
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                            </svg>
-                            <svg
-                                className="w-4 h-4 text-yellow-300"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                viewBox="0 0 22 20"
-                            >
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                            </svg>
-                            <svg
-                                className="w-4 h-4 text-yellow-300"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                viewBox="0 0 22 20"
-                            >
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                            </svg>
-                            <svg
-                                className="w-4 h-4 text-yellow-300"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                viewBox="0 0 22 20"
-                            >
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                            </svg>
-                            <svg
-                                className="w-4 h-4 text-gray-200 dark:text-gray-600"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                viewBox="0 0 22 20"
-                            >
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                            </svg>
-                        </div>
-                        <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
-                            5.0
-                        </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                            {token} PYUSD
-                        </span>
-                        <button
-                            onClick={async ()=>{
-                                try{
-                                    if(!walletAddress){
-                                        toast.warning("Please connect your wallet");
-                                        return;
-                                    }
-                                    await fetchBalance();
-                                    if(pyusdBalance<pyusdToken || balance<soulToken){
-                                        toast.warning("Insufficient Balance");
-                                        return;
-                                    }
-                                    const res = await toast.promise(approveTokens(pyusdToken),{
-                                        pending: "Approving Tokens",
-                                        success: "Tokens Approved !",
-                                        error: "Approval Aborted"
-                                    })
-                                    if(res){
-                                        await toast.promise(reduceTokens(soulToken,pyusdToken),{
-                                            pending: "Purchasing Workshop",
-                                            success: "Workshop Purchased !",
-                                            error: "Purchase Aborted"
-                                        })
-                                        await fetchBalance();
-                                        return;
-                                    }
-                                }catch(err){
-                                    toast.error("Transaction Failed")
-                                }   
-                            }}
-                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        >
-                            Buy
-                        </button>
-                    </div>
-                    {(walletAddress && token!==0)? (<div className=' text-red-500 font-semibold'>
+        <div className='w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-[#4b5161] dark:border-gray-700 h-px[200px] flex flex-col justify-between'>
+            <div className='p-8 rounded-t-lg h-2/3'>
+                <img
+                    className='rounded-lg'
+                    src={require('../images/404-image.png')} // Default image
+                    alt='Workshop'
+                />
+            </div>
+            <div className='px-5 pb-5 h-1/3 flex flex-col '>
+                <h5 className='text-xl font-semibold tracking-tight text-gray-900 dark:text-white'>
+                    {title}
+                </h5>
+                <p className='text-sm text-gray-600 dark:text-gray-300 mb-4'>{description}</p>
+                <div className='flex items-center justify-between'>
+                    <div>
+                       
+                        { (
+                            <p className='text-sm text-black font-bold dark:text-gray-400 '>
+                                {price.toFixed(2)} PYUSD
+                            </p>
+                        )}
+                        {(!isCreator&&!purchased &&walletAddress && price!==0)? (<div className=' text-red-500 font-semibold'>
                         Get at <span className='font-bold text-red-600'>{pyusdToken}  PYUSD</span> using Soul Tokens
                     </div>):(<></>)}
+                    </div>
+                    {!isCreator && !purchased && (
+                        <button
+                            onClick={onBuy}
+                            className='text-white bg-[#f58b44] hover:bg-[#d67a3a] focus:ring-4 focus:outline-none focus:ring-[#f58b44] font-medium rounded-lg text-sm px-5 py-2.5 text-center'>
+                            Buy
+                        </button>
+                    )}
+                    {purchased && (
+                        <span className='text-green-500 font-medium'>Purchased</span>
+                    )}
                 </div>
             </div>
-
         </div>
     );
-}
+};
 
 export default WorkshopCard;

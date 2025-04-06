@@ -15,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Transactions from "./pages/transactions.js";
 import CreateWorkshop from "./pages/createWorkshop.js";
 import About from "./pages/about.js";
+import PersonalWorkshop from "./pages/personalWorkshop.js";
 function App() {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -64,6 +65,7 @@ function App() {
         <Route path="/my-transactions" element={<Transactions />}/>
         <Route path="/create-workshop" element={<CreateWorkshop />}/>
         <Route path="/about" element={<About />}/>
+        <Route path="/my-Workshops" element={<PersonalWorkshop />} />
        </Routes>
       
       <Footer />
