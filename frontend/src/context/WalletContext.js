@@ -190,6 +190,7 @@ const WalletProvider = ({ children }) => {
         fetchBalance,
         earnTokens,
         reduceTokens,
+        user
       }}>
       {children}
     </WalletContext.Provider>

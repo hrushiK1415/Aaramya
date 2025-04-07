@@ -40,7 +40,7 @@ function App() {
 
 
   return (
-    <div className='transition duration-500 bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 min-h-screen overflow-x-hidden'>
+    <div className='transition duration-500 bg-[#fdf5eb] bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 min-h-screen overflow-x-hidden'>
       <ToastContainer
         position="top-left"
         autoClose={2000}
