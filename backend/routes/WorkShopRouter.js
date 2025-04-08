@@ -16,7 +16,7 @@ router.post("/create-workshop", async (req,res) => {
         await workshop.save();
         user.createdWorkshops.push(workshop._id);
         await user.save();
-        res.status(201).json(workshop);
+        res.status(201).json({workshop,user});
     } catch (error) {
         console.error("Error creating workshop:", error);
         res.status(500).json({ message: "Internal server error" });

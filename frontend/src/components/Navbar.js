@@ -5,7 +5,7 @@ import useDarkMode from '../hooks/useDarkMode.js'
 import WalletProfile from './WalletProfile'
 import { useTranslation } from 'react-i18next'
 import { WalletContext } from '../context/WalletContext'
-import { FaGithub, FaBook, FaDumbbell, FaUsers } from 'react-icons/fa'
+import { FaBook, FaDumbbell, FaUsers } from 'react-icons/fa'
 import { MdOutlineLightMode, MdOutlineDarkMode, MdMenu, MdClose } from 'react-icons/md'
 
 const Navbar = () => {
@@ -50,7 +50,7 @@ const Navbar = () => {
               to='/workshop'
               className='flex items-center px-4 py-2 rounded-md text-lg font-medium text-[#4b5161] dark:text-[#fdf5eb] hover:text-[#f58b44] transition-colors'>
               <FaBook className='mr-2' size={18} />
-              <span>{t('Navbar.Meditation')}</span>
+              <span>Workshops</span>
             </Link>
             <Link
               to='/activities'

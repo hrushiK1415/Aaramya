@@ -9,7 +9,7 @@ import { FaShoppingBag, FaPencilAlt, FaPlus } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
 const PersonalWorkshop = () => {
-  const { walletAddress } = useContext(WalletContext)
+  const { walletAddress,user } = useContext(WalletContext)
   const [purchasedWorkshops, setPurchasedWorkshops] = useState([])
   const [createdWorkshops, setCreatedWorkshops] = useState([])
   const [loading, setLoading] = useState(true)
@@ -43,12 +43,14 @@ const PersonalWorkshop = () => {
   }
 
   useEffect(() => {
-    if (walletAddress) {
+    setLoading(true)
+    if (walletAddress && user && user.walletAddress===walletAddress) {
       Promise.all([fetchPurchasedWorkshops(), fetchCreatedWorkshops()]).finally(
         () => setLoading(false)
       )
     }
-  }, [walletAddress])
+    setLoading(false)
+  }, [walletAddress,user])
 
   return (
     <div className='min-h-screen bg-[#fdf5eb] dark:bg-[#4b5161] text-[#4b5161] dark:text-[#fdf5eb] pb-8'>

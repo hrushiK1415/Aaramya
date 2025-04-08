@@ -4,7 +4,6 @@ const TransactionSchema = new Schema({
     transactionHash: {
         type: String,
         required: true,
-        unique: true
     },
     type:{
         type: String,
@@ -22,8 +21,20 @@ const TransactionSchema = new Schema({
         type: String,
         enum: ['credit', 'debit'],
         required: true
-    }
+    },
+    amount: {
+        type: Number,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
 })
+
+TransactionSchema.index({ transactionHash: 1, transactionType: 1,type : 1 }, { unique: true });
+
+
 
 const Transaction = model('Transaction', TransactionSchema);
 export default Transaction;

@@ -55,7 +55,7 @@ router.get("/created-workshops", async (req, res) => {
 
 router.get("/transactions", async (req, res) => {
     try {
-        const address = req.body.address;
+        const address = req.query.address;
         const user = await User.findOne({ walletAddress: address });
         if (!user) {
             return res.status(404).json({ message: "User not found" });

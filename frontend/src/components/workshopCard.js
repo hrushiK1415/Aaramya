@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { WalletContext } from '../context/WalletContext'
+import { toast } from 'react-toastify'
 import {
   FaYinYang,
   FaShoppingCart,
@@ -8,12 +9,18 @@ import {
   FaUserCircle,
 } from 'react-icons/fa'
 
-const WorkshopCard = ({ workshop, onBuy, isCreator }) => {
-  const { title, price, description, discount, purchased, imageUrl } = workshop
-  const { balance, walletAddress } = React.useContext(WalletContext)
-  const [pyusdToken, setPyusdToken] = useState(0)
+const WorkshopCard = ({
+  workshop,
+  isCreator,
+  isDisabled = false,
+  setIsPurchasing,
+}) => {
+  const { title, price, description, purchased, imageUrl } = workshop
+  const { balance, walletAddress, fetchBalance, approveTokens, reduceTokens } =
+    React.useContext(WalletContext)
+  const [pyusdToken, setPyusdToken] = useState(price)
   const [soulToken, setSoulToken] = useState(0)
-
+  console.log(isDisabled)
   // Default image if none provided
   const defaultImage = require('../images/404-image.png')
 
@@ -29,21 +36,76 @@ const WorkshopCard = ({ workshop, onBuy, isCreator }) => {
 
   useEffect(() => {
     const token = Number(price)
-    const handleFetchDiscount = async () => {
-      var val = Math.min(balance, 200)
-      var discount = val / 100
-      var PyusdT = token - discount
-      setSoulToken(val)
-      setPyusdToken(PyusdT)
+    const handleFetchDiscount = () => {
+      // Calculate the discount based on user's balance (max 200 tokens)
+      const maxDiscountTokens = Math.min(balance, 200)
+
+      // Each token provides 0.01 PYUSD discount
+      const discountAmount = Math.min(maxDiscountTokens / 100,token - 1)
+
+      // Calculate the final price (minimum 1 PYUSD)
+      const discountedPrice = token - discountAmount
+
+      // Round to 2 decimal places for better display
+      const roundedPrice = Math.round(discountedPrice * 100) / 100
+
+      // The soul tokens used is simply the discount amount * 100
+      const tokensUsed = Math.floor(discountAmount * 100)
+      // console.log(roundedPrice, " " , tokensUsed)
+      setPyusdToken(roundedPrice)
+      setSoulToken(tokensUsed)
     }
     if (walletAddress && balance > 0) {
       handleFetchDiscount()
     }
   }, [walletAddress, balance, price])
 
+  const handleBuyWorkshop = async () => {
+    setIsPurchasing(true)
+    try {
+      if (!walletAddress) {
+        toast.warning('Please connect your wallet')
+        return
+      }
+
+      await fetchBalance()
+      // Define the required tokens for the purchase
+
+      // Approve tokens
+      console.log(pyusdToken)
+      const res = await toast.promise(approveTokens(pyusdToken), {
+        pending: 'Approving Tokens',
+        success: 'Tokens Approved!',
+        error: 'Approval Aborted',
+      })
+
+      if (res) {
+        // Reduce tokens and complete the purchase
+        const res1 = await toast.promise(
+          reduceTokens(soulToken, pyusdToken, workshop?._id, workshop?.owner),
+          {
+            pending: 'Purchasing Workshop',
+            success: 'Workshop Purchased!',
+            error: (err) => err?.message || 'Invalid Transaction',
+          }
+        )
+        setIsPurchasing(false)
+      }
+    } catch (err) {
+      toast.error('Transaction Failed')
+    } finally {
+      setIsPurchasing(false)
+    }
+  }
+
   // Calculate if a discount is available
   const hasDiscount =
-    !isCreator && !purchased && walletAddress && price !== 0 && balance > 0
+    !isCreator &&
+    !purchased &&
+    walletAddress &&
+    price !== 0 &&
+    balance > 0 &&
+    price !== pyusdToken
 
   return (
     <div className='group relative bg-[#fdf5eb] dark:bg-[#4b5161] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col border border-[#4b5161]/10 dark:border-[#fdf5eb]/10'>
@@ -122,7 +184,8 @@ const WorkshopCard = ({ workshop, onBuy, isCreator }) => {
           {/* Action button */}
           {!isCreator && !purchased ? (
             <button
-              onClick={onBuy}
+              onClick={handleBuyWorkshop}
+              disabled={isDisabled}
               className='w-full flex items-center justify-center px-4 py-3 bg-[#f58b44] text-white font-medium rounded-lg hover:bg-[#d67a3a] transition-all duration-200 shadow-md focus:outline-none focus:ring-2 focus:ring-[#f58b44] focus:ring-offset-2'>
               <FaShoppingCart className='mr-2' /> Buy Workshop
             </button>

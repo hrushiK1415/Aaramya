@@ -1,11 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import { FaBook, FaDumbbell, FaYinYang, FaChartLine } from 'react-icons/fa'
 import homepageIllustration from '../images/homepage-hero-guest/undraw_mindfulness_scgo.svg'
 
 const Home = () => {
-  const { t } = useTranslation()
 
   return (
     <div className='min-h-screen bg-[#fdf5eb] dark:bg-gray-800 dark:bg-[#4b5161]text-[#4b5161] dark:text-[#fdf5eb]'>
@@ -18,10 +16,10 @@ const Home = () => {
               <span className='text-[#f58b44]'>Mind</span> Chain
             </h1>
             <h2 className='text-2xl md:text-3xl font-semibold text-[#4b5161] dark:text-[#fdf5eb] mb-4'>
-              {t('HeroGuest.Title')}
+            Be kind to your mind, it will be fine
             </h2>
             <p className='text-lg mb-6'>
-              {t('HeroGuest.Subtitle')}
+            Less stressed. More resilient. Happier. It all starts with just a few minutes a day.
             </p>
             <div className='flex flex-col sm:flex-row gap-4'>
               <Link

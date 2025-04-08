@@ -6,23 +6,23 @@ const About = () => {
     {
       name: 'Lakshya Agarwal',
       role: 'Web Developer',
-      description: 'Frontend specialist with expertise in React.js and modern UI frameworks.',
-      github: 'https://github.com/lakshya-agarwal',
-      linkedin: 'https://linkedin.com/in/lakshya-agarwal',
+      description: 'Full-stack developer focusing on frontend and blockchain integrations.',
+      github: 'https://github.com/Lakshya0000',
+      linkedin: 'https://www.linkedin.com/in/lakshya-agarwal-98341b287/',
     },
     {
       name: 'Aditya Gunjkar',
       role: 'Web Developer',
-      description: 'Full-stack developer focusing on scalable architectures and blockchain integrations.',
+      description: 'Frontend specialist with expertise in React.js and modern UI frameworks.',
       github: 'https://github.com/aditya-gg04',
-      linkedin: 'https://linkedin.com/in/aditya-gunjkar',
+      linkedin: 'https://www.linkedin.com/in/aditya-gunjkar-5b9437288/',
     },
     {
       name: 'Nachiket',
       role: 'Smart Contract Developer',
       description: 'Blockchain specialist focusing on Ethereum smart contracts and Web3 integration.',
-      github: 'https://github.com/nachiket',
-      linkedin: 'https://linkedin.com/in/nachiket',
+      github: 'https://github.com/nachiketdeore09',
+      linkedin: 'https://www.linkedin.com/in/nachiket-deore/',
     },
   ]
 

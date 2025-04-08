@@ -25,7 +25,9 @@ const CreateWorkshop = () => {
   // Redirect if wallet is not connected
   useEffect(() => {
     if (!walletAddress) {
-      toast.error('Please connect your wallet to create a workshop');
+      toast.error('Please connect your wallet to create a workshop',{
+        toastId:'wallet-not-connected'
+      });
       navigate('/');
     }
   }, [walletAddress, navigate]);
